@@ -1,0 +1,63 @@
+import pandas as pd
+import the numpy as np
+title: "coursera_capstone_project"
+output:
+  pdf_document: default
+  html_document: default
+  ``{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Load data
+```{r load data}
+setwd("D:/1-1. R studio/Lecture10. Data science capstone/week2/final/en_US")
+blogs=readLines("en_US.blogs.txt",warn=FALSE,encoding="UTF-8")
+news=readLines("en_US.news.txt",warn=FALSE,encoding="UTF-8")
+twitter=readLines("en_US.twitter.txt",warn=FALSE,encoding="UTF-8")
+#I set the directory and load 3 data
+## Summarize data
+```{r summarize}
+size_blogs=file.size(path="D:/1-1. R studio/Lecture10. Data science capstone/week2/final/en_US/en_US.blogs.txt")/2^20
+size_news=file.size(path="D:/1-1. R studio/Lecture10. Data science capstone/week2/final/en_US/en_US.news.txt")/2^20
+size_twitter=file.size(path="D:/1-1. R studio/Lecture10. Data science capstone/week2/final/en_US/en_US.twitter.txt")/2^20
+len_blogs=length(blogs)
+len_news=length(news)
+len_twitter=length(twitter)
+nchar_blogs=sum(nchar(blogs))
+nchar_news=sum(nchar(news))
+nchar_twitter=sum(nchar(twitter))
+library(stringi)
+nword_blogs=stri_stats_latex(blogs)[4]
+nword_news=stri_stats_latex(news)[4]
+nword_twitter=stri_stats_latex(twitter)[4]
+table=data.frame("File Name"=c("Blogs","News","Twitter"),
+                  "File Size(MB)"=c(size_blogs,size_news,size_twitter),
+                  "Num of rows"=c(len_blogs,len_news,len_twitter),
+                  "Num of character"=c(nchar_blogs,nchar_news,nchar_twitter),
+                  "Num of words"=c(nword_blogs,nword_news,nword_twitter))
+table
+```
+#Summarize the contents, which has file size, number of rows, number of character and number of words in each file. And make the table
+## Clean data
+
+```{r clean data}
+set.seed(12345)
+blogs1<-iconv(blogs,"latin1","ASCII",sub="")
+news1<-iconv(news,"latin1","ASCII",sub="")
+twitter1<-iconv(twitter,"latin1","ASCII",sub="")
+rm(blogs)
+rm(news)
+rm(twitter)
+# sample data set only 1% of each file
+sample_data<-c(sample(blogs1,length(blogs1)*0.01),
+               sample(news1,length(news1)*0.01),
+               sample(twitter1,length(twitter1)*0.01))
+rm(blogs1)
+rm(news1)
+rm(twitter1)
+```
+#Data sets are really big, so using sample() function, I sample 1% of each file.
+
+
+
+
+
